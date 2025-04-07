@@ -16,3 +16,9 @@ min_value = np.min(stock_prices)
 max_value = np.max(stock_prices)
 normalized_prices = np.round(stock_prices - min_value) / (max_value - min_value)
 print(normalized_prices)
+
+print("\nRisky Investment Days:")
+for i, row in enumerate(stock_prices):
+    risky = row[row < 200]
+    if risky.size > 0:
+        print(f"Day {i+1}: {risky.tolist()}")
