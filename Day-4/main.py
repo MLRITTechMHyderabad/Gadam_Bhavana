@@ -2,7 +2,7 @@ import json
 import logging
 from authorization import LaunchAuthorizationSystem
 
-# Set up logging (console output only)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s -%(levelname)s -%(message)s')
 
 
 class Warhead:
@@ -14,6 +14,7 @@ class Warhead:
         self.yield_kt = yield_kt  # Yield in kilotons
 
     def get_info(self):
+        return f"Warhead {self.warhead_id}: type{self.type}, yield{self.yield_kt}kt"
         
 
 class Submarine:
@@ -22,11 +23,15 @@ class Submarine:
     def __init__(self, name, warhead_data):
         self.name = name
         self.warheads = [Warhead(**w) for w in warhead_data]
+        self.failed_attempts = 0
 
     def authorize_launch(self, auth_code):
-        """Attempts to authorize and launch a missile."""
+        logging.info(f"Launch authorization intialized with {self.name}.")
+
+        if LaunchAuthorizationSystem.validate_code(auth_code):
+            self.failed_attempts = 0
+            logging.info("launch authorized")
         
-        """Simulates launching a missile."""
         
 
 # JSON Data (Simulating a warhead payload inventory)
